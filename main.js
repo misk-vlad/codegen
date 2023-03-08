@@ -53,7 +53,7 @@ function cross_a_b(A, B) {
 
 function crossover() {
   console.log('Executing crossover...')
-  population.sort((a, b) => fitness(a) - fitness(b))
+  population.sort((a, b) => fitness(b) - fitness(a))
 
   let children = []
 
@@ -74,7 +74,7 @@ function crossover() {
 
 function selection() {
   console.log('Executing selection...')
-  population.sort((a, b) => fitness(a) - fitness(b))
+  population.sort((a, b) => fitness(b) - fitness(a))
   population = population.slice(0, 500)
   console.log(`new population length: ${population.length}`)
 }
@@ -96,7 +96,7 @@ function loop(iterations) {
 function main() {
   console.log('Hello there! This is genetic alghorithm demo.')
   init()
-  loop(7)
+  loop(100)
 }
 
 main()
