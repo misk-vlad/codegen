@@ -74,6 +74,9 @@ function crossover() {
 
 function selection() {
   console.log('Executing selection...')
+  population.sort((a, b) => fitness(a) - fitness(b))
+  population = population.slice(0, 500)
+  console.log(`new population length: ${population.length}`)
 }
 
 function iteration(epoch) {
@@ -93,7 +96,7 @@ function loop(iterations) {
 function main() {
   console.log('Hello there! This is genetic alghorithm demo.')
   init()
-  loop(5)
+  loop(7)
 }
 
 main()
