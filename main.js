@@ -11,7 +11,28 @@ function init() {
 
 function mutation() {
   console.log('Executing mutation...')
+  let mutated_population = []
   
+  for (let i = 0; i < population.length; i++) {
+    let mutated_individual = population[i]
+    
+    let mutated_gene = Math.floor(Math.random() * mutated_individual.length)
+    let mutation_value = GENES[Math.floor(Math.random() * GENES.length)]
+    mutated_individual[mutated_gene] = mutation_value
+    
+    mutated_population.push(mutated_individual)
+  }
+
+  for (let i = 0; i < mutated_population.length; i++) {
+    population.push(mutated_population[i])
+  }
+
+  console.log(`Population after mutation: ${population.length}`)
+}
+
+function fitness(individual) {
+  let A_count = individual.split('A').length - 1
+  return A_count / individual.length
 }
 
 function crossover() {
