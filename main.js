@@ -41,7 +41,7 @@ function cross_a_b(A, B) {
   let children = '';
 
   for (let i = 0; i < A.length; i++) {
-    if (Math.random < 0.5) {
+    if (Math.random() < 0.5) {
       children += A[i]
     } else {
       children += B[i]
