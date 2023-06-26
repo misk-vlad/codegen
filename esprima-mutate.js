@@ -2,7 +2,7 @@ const esprima = require('esprima');
 const estraverse = require('estraverse');
 const escodegen = require('escodegen');
 
-let tree = esprima.parseScript('let a = 1;');
+let tree = esprima.parseScript('function sum(a,b) { return a+b; }');
 console.log(JSON.stringify(tree, 0, 4));
 
 estraverse.traverse(tree, {
@@ -59,6 +59,8 @@ function generatePythonCode(node) {
     return generatePythonCode(node.declarations[0]);
   } else if (node.type === 'VariableDeclarator') {
     return `${node.id.name} = ${node.init.value} `;
+  } else if (node.type === 'BlockStatement') {
+    return `    ${generatePythonCode(node.body[0])}`;
   } else {
     throw new Error(`Unsupported node type: ${node.type}`);
   }
