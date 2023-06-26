@@ -2,28 +2,84 @@ const esprima = require('esprima');
 const estraverse = require('estraverse');
 const escodegen = require('escodegen');
 
-let tree = esprima.parseScript('let a = 1;');
+let tree = esprima.parseScript('function sum() { return a }');
 console.log(JSON.stringify(tree, 0, 4));
 
-estraverse.traverse(tree, {
-    enter: function (node, parent) {
-        console.log('enter node ', node.type, Object.keys(node));
-        if (parent)
-            console.log('enter parent ', parent.type, Object.keys(parent));
-    },
-    leave: function (node, parent) {
-        console.log('leave node', node.type, Object.keys(node));
-        if (parent)
-            console.log('leave parent ', parent.type, Object.keys(parent));
+// estraverse.traverse(tree, {
+//     enter: function (node, parent) {
+//         console.log('enter node ', node.type, Object.keys(node));
+//         if (parent)
+//             console.log('enter parent ', parent.type, Object.keys(parent));
+//     },
+//     leave: function (node, parent) {
+//         console.log('leave node', node.type, Object.keys(node));
+//         if (parent)
+//             console.log('leave parent ', parent.type, Object.keys(parent));
+//     }
+// })
+
+const identifierDictionary = 'abcdefghijklmopqrstuvwxyz';
+function randomIdentifier() {
+  return identifierDictionary[Math.floor(Math.random() * identifierDictionary.length)];
+}
+
+const operatorDictionary = '+-*/';
+function randomBinaryOperator() {
+  return operatorDictionary[Math.floor(Math.random() * operatorDictionary.length)];
+}
+
+function mutationAddParameter(node) {
+  node.params.push({
+    type: 'Identifier',
+    name: randomIdentifier()
+  })
+  return node;
+}
+
+function mutationAddReturnStatement(node) {
+  node.body.push({
+    type: 'ReturnStatement',
+    argument: {
+      type: 'Identifier',
+      name: randomIdentifier()
     }
-})
+  })
+  return node;
+}
+
+function mutationAddBinaryExpression(node) {
+  node.argument = {
+    type: 'BinaryExpression',
+    operator: randomBinaryOperator(),
+    left: {
+      type: 'Identifier',
+      name: node.argument.name
+    },
+    right: {
+      type: 'Identifier',
+      name: randomIdentifier()
+    }
+  }
+  return node;
+}
 
 let replaced = estraverse.replace(tree, {
     enter: function (node, parent) {
-        if (node.type === 'Literal') {
-            let { type, value, raw } = node;
-            return { type, value: 2, raw };
+        if (node.type === 'FunctionDeclaration') {
+          if (Math.random() <= 0.1)
+            return mutationAddParameter(node);
         }
+        if (node.type === 'BlockStatement') {
+          if (Math.random() <= 0.1)
+            return mutationAddReturnStatement(node);
+        }
+        if (node.type === 'ReturnStatement') {
+          return mutationAddBinaryExpression(node);
+        }
+        // if (node.type === 'Literal') {
+        //     let { type, value, raw } = node;
+        //     return { type, value: 2, raw };
+        // }
     }
 })
 
@@ -59,6 +115,8 @@ function generatePythonCode(node) {
     return generatePythonCode(node.declarations[0]);
   } else if (node.type === 'VariableDeclarator') {
     return `${node.id.name} = ${node.init.value} `;
+  } else if (node.type === 'BlockStatement') {
+    return `    ${generatePythonCode(node.body[0])}`;
   } else {
     throw new Error(`Unsupported node type: ${node.type}`);
   }
