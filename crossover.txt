@@ -1,0 +1,17 @@
+AAAABBBB
++
+CCCCDDDD
+=
+ACCABDDD
+
+f<b<v<a>>1>>
++
+f<b<v<b>>2>>
+=
+f<b<v<b>>1>>
+
+AAA--
++
+DDDDD
+=
+ADAD-
