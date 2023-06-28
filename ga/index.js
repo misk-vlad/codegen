@@ -1,49 +1,26 @@
+import Population from "./Population.js";
+import TestIndividual from "./TestIndividual.js";
+
 class GeneticAlghorithm {
-  constructor() {
-    this.populationParameters = {
-      initialVolume: 10,
-      maxVolume: 500,
-      initialIndividual: ''
-    }
-    this.population = [];
-    this.mutationParameters = {
-      probability: 1.0,
-    }
-    this.implementations = {
-      mutate: function (individual) { 
-        return individual;
-      },
-    };
+  constructor(populationSize, IndividualClass) {
+    this.population = new Population(populationSize, IndividualClass);
   }
 
-  initPopulation() {
-    console.log('initializing population...')
-    for (let i = 0; i < this.populationVolume; i++) {
-      this.population.push(this.initialIndividual);
-    }
+  init() {
+    this.population.init();
   }
 
   mutation() {
-    console.log('executing mutation...');
-    let mutated_population = [];
-
-    for (let i = 0; i < this.population.length; i++) {
-      if (Math.random() >= this.mutationParameters.probability) continue;
-
-      let mutant = this.implementations.mutate(this.population[i]);
-      mutated_population.push(mutant);
-    }
-
-    for (let i = 0; i < mutated_population.length; i++) {
-      this.population.push(mutated_population[i]);
-    }
+    this.population.mutate();
   }
 
   iteration(epoch) {
     console.log(`Starting iteration ${epoch}...`);
+    console.log(`Population before mutation: ${this.population.toString()}`);
     this.mutation();
-    this.crossover();
-    this.selection();
+    console.log(`Population after mutation: ${this.population.toString()}`);
+    // this.crossover();
+    // this.selection();
     console.log(`Finished iteration ${epoch}...`)
   }
 
@@ -53,5 +30,9 @@ class GeneticAlghorithm {
     }
   }
 }
+
+let ga = new GeneticAlghorithm(10, TestIndividual);
+ga.init();
+ga.loop(10);
 
 export default GeneticAlghorithm;
