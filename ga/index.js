@@ -1,9 +1,19 @@
 class GeneticAlghorithm {
   constructor() {
-    this.initialIndividual = '';
-    this.populationVolume = 10;
+    this.populationParameters = {
+      initialVolume: 10,
+      maxVolume: 500,
+      initialIndividual: ''
+    }
     this.population = [];
-    this.mutations = [];
+    this.mutationParameters = {
+      probability: 1.0,
+    }
+    this.implementations = {
+      mutate: function (individual) { 
+        return individual;
+      },
+    };
   }
 
   initPopulation() {
@@ -15,7 +25,32 @@ class GeneticAlghorithm {
 
   mutation() {
     console.log('executing mutation...');
-    
+    let mutated_population = [];
+
+    for (let i = 0; i < this.population.length; i++) {
+      if (Math.random() >= this.mutationParameters.probability) continue;
+
+      let mutant = this.implementations.mutate(this.population[i]);
+      mutated_population.push(mutant);
+    }
+
+    for (let i = 0; i < mutated_population.length; i++) {
+      this.population.push(mutated_population[i]);
+    }
+  }
+
+  iteration(epoch) {
+    console.log(`Starting iteration ${epoch}...`);
+    this.mutation();
+    this.crossover();
+    this.selection();
+    console.log(`Finished iteration ${epoch}...`)
+  }
+
+  loop(iterations) {
+    for (let i = 0; i < iterations; i++) {
+      this.iteration(i);
+    }
   }
 }
 
