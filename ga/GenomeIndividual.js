@@ -1,19 +1,10 @@
 import GenericIndividual from "./GenericIndividual.js";
-
-const GENES = ['A', 'C', 'T', 'G'];
-
-function mutationFunction(individual) {
-  let mutated_gene = Math.floor(Math.random() * individual.length);
-  let mutation_value = GENES[Math.floor(Math.random() * GENES.length)];
-  let mutated_individual = individual.substring(0, mutated_gene) + mutation_value + individual.substring(mutated_gene + 1);
-  
-  return mutated_individual;
-}
+import GenomeMutations from './GenomeMutations.js';
 
 class GenomeIndividual extends GenericIndividual {
-  constructor() {
-    super('ACTGACTGACTGACTG');
-    this.mutations = [ mutationFunction ];
+  constructor(body = 'ACTGACTGACTGACTG') {
+    super(body);
+    this.mutations = GenomeMutations.mutations;
   }
 
   mutate() {
@@ -23,12 +14,33 @@ class GenomeIndividual extends GenericIndividual {
 
   mutated_clone() {
     let mutationIndex = Math.floor(Math.random() * this.mutations.length);
-    return this.mutations[mutationIndex](this.body);
+    let mutatedBody = this.mutations[mutationIndex](this.body);
+    return new GenomeIndividual(mutatedBody);
   }
+
+  fitness() {
+    let A_count = this.body.split('A').length - 1
+    return A_count / this.body.length
+  }
+
+  crossover(anotherIndividual) {
+    let children = '';
+
+    for (let i = 0; i < anotherIndividual.body.length; i++) {
+      if (Math.random() < 0.5) {
+        children += anotherIndividual.body[i];
+      } else {
+        children += this.body[i];
+      }
+    }
+
+    return new GenomeIndividual(children);
+  }
+
 }
 
-let genome = new GenomeIndividual();
-let mutated = genome.mutated_clone();
-console.log(mutated);
+// let genome = new GenomeIndividual();
+// let mutated = genome.mutated_clone();
+// console.log(mutated);
 
 export default GenomeIndividual;
