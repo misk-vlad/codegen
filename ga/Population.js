@@ -1,5 +1,5 @@
-// import JsIndividual from "./JsIndividual.js";
-import GenomeIndividual from "./GenomeIndividual.js";
+import JsIndividual from "./JsIndividual.js";
+// import GenomeIndividual from "./GenomeIndividual.js";
 
 class Population {
 	constructor(size, IndividualClass) {
@@ -76,11 +76,12 @@ class Population {
 
 }
 
-// let p = new Population(10, GenomeIndividual);
-// p.init();
-// console.log(p.toString());
-// p.mutated_clones();
-// console.log(p.toString());
+// let p = new Population(10, GenomeIndividual); JsIndividual
+let p = new Population(10, JsIndividual); 
+p.init();
+console.log(p.toString());
+p.mutated_clones();
+console.log(p.toString());
 // p.crossover();
 // console.log(p.toString());
 // p.selection();
