@@ -19,7 +19,7 @@ class JsIndividual extends GenericIndividual {
 
   chooseMutation(node) {
     if (node.type in this.mutations) {
-      if (Math.random() <= 0.5) {
+      if (Math.random() <= 0.99) {
         let mutationsList = this.mutations[node.type];
         let chosenMutation = mutationsList[Math.floor(Math.random() * mutationsList.length)];
         mLogger(`Performing ${chosenMutation} mutation for ${node.type}...`);
@@ -83,6 +83,7 @@ class JsIndividual extends GenericIndividual {
       async: false 
     };
     let output = escodegen.generate(wrapper);
+    cLogger(`child output is: ${output}`);
     return new JsIndividual(output);
   }
 
@@ -97,10 +98,11 @@ class JsIndividual extends GenericIndividual {
     fLogger(`body.length for ${body} is ${body.length}`);
     test1 = body.length>3;
     try {
-      let sum = Function(body);
+      let sum = Function('a', 'b', body);
       let a = Math.floor(Math.random() * 10);
       let b = Math.floor(Math.random() * 10);
       let result = sum(a,b);
+      fLogger(`${a} + ${b} = ${result}`);
       test2 = (result === a+b);
     } catch(e) {
       fLogger(`Error during execution of fitness function for \n === \n ${this.body} \n ===: \n ${e}`);

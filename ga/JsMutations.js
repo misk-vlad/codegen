@@ -1,9 +1,9 @@
-const identifierDictionary = 'abcdefghijklmopqrstuvwxyz';
+const identifierDictionary = 'abc'; //defghijklmopqrstuvwxyz';
 function randomIdentifier() {
   return identifierDictionary[Math.floor(Math.random() * identifierDictionary.length)];
 }
 
-const operatorDictionary = '+-*/';
+const operatorDictionary = '+-'; //*/';
 function randomBinaryOperator() {
   return operatorDictionary[Math.floor(Math.random() * operatorDictionary.length)];
 }

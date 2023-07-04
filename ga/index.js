@@ -46,8 +46,8 @@ class GeneticAlghorithm {
   }
 }
 
-let ga = new GeneticAlghorithm(1000, JsIndividual);
+let ga = new GeneticAlghorithm(100, JsIndividual);
 ga.init();
-ga.loop(100);
+ga.loop(10);
 
 export default GeneticAlghorithm;

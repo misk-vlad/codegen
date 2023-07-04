@@ -51,7 +51,8 @@ class Population {
 
   crossover() {
     logger('Executing crossover...');
-    this.population.sort((a, b) => b.fitness() - a.fitness());
+    // this.population.sort((a, b) => b.fitness() - a.fitness());
+    this.population.sort((a, b) => Math.random() * 2 - 1)
 
     let children = [];
 
