@@ -63,9 +63,9 @@ function mutationAddVariableDeclarationInit(node) {
 
 class JsMutations {
   static mutations = {
-    FunctionDeclaration: [ 
+    /*FunctionDeclaration: [ 
       mutationAddParameter 
-    ],
+    ],*/
     BlockStatement: [ 
       mutationAddReturnStatement,
       mutationAddVariableDeclaration

@@ -1,6 +1,11 @@
+import debug from 'debug';
+
+const logger = debug('GeneticAlghorithm');
+
 import Population from "./Population.js";
 // import TestIndividual from "./TestIndividual.js";
-import GenomeIndividual from "./GenomeIndividual.js";
+// import GenomeIndividual from "./GenomeIndividual.js";
+import JsIndividual from "./JsIndividual.js";
 
 class GeneticAlghorithm {
   constructor(populationSize, IndividualClass) {
@@ -24,14 +29,14 @@ class GeneticAlghorithm {
   }
 
   iteration(epoch) {
-    console.log(`Starting iteration ${epoch}...`);
-    console.log(`Population before mutation: ${this.population.toString()}`);
+    logger(`Starting iteration ${epoch}...`);
+    logger(`Population before mutation: ${this.population.toString()}`);
     this.mutation();
-    console.log(`Population after mutation: ${this.population.toString()}`);
+    logger(`Population after mutation \n ===: \n ${this.population.toString()}`);
     this.crossover();
     this.selection();
-    console.log(`Finished iteration ${epoch}...`)
-    console.log(`Population size is: ${this.population.actualSize}`);
+    logger(`Finished iteration ${epoch}...`)
+    logger(`Population size is: ${this.population.actualSize}`);
   }
 
   loop(iterations) {
@@ -41,8 +46,8 @@ class GeneticAlghorithm {
   }
 }
 
-let ga = new GeneticAlghorithm(10, GenomeIndividual);
+let ga = new GeneticAlghorithm(1000, JsIndividual);
 ga.init();
-ga.loop(40);
+ga.loop(100);
 
 export default GeneticAlghorithm;
