@@ -7,6 +7,7 @@ import debug from 'debug';
 const mLogger = debug('JsIndividual:mutation');
 const fLogger = debug('JsIndividual:fitness');
 const cLogger = debug('JsIndividual:cross');
+const eLogger = debug('JsIndividual:exec');
 
 import GenericIndividual from "./GenericIndividual.js";
 import JsMutations from "./JsMutations.js";
@@ -87,26 +88,37 @@ class JsIndividual extends GenericIndividual {
     return new JsIndividual(output);
   }
 
-  fitness() {
-    let test1 = 0;
-    let test2 = 0;
-    
+  getBody() {
     let tree = esprima.parseScript(this.body);
     let bodyLeaf = esquery(tree, 'FunctionDeclaration>BlockStatement')[0];
-    fLogger(`esquery result: ${JSON.stringify(bodyLeaf)}`);
+    eLogger(`esquery result: ${JSON.stringify(bodyLeaf)}`);
     let body = escodegen.generate(bodyLeaf);
-    fLogger(`body.length for ${body} is ${body.length}`);
-    test1 = body.length>3;
+
+    return body;
+  }
+
+  exec() {
+    let body = this.getBody();
+    let res = 0;
+
     try {
       let sum = Function('a', 'b', body);
       let a = Math.floor(Math.random() * 10);
       let b = Math.floor(Math.random() * 10);
       let result = sum(a,b);
-      fLogger(`${a} + ${b} = ${result}`);
-      test2 = (result === a+b);
+      res = (result === (a+b));
+      eLogger(`${a} + ${b} = ${result}`);
     } catch(e) {
-      fLogger(`Error during execution of fitness function for \n === \n ${this.body} \n ===: \n ${e}`);
+      eLogger(`Error during execution of function \n === \n ${this.body} \n ===: \n ${e}`);
     }
+    
+    return res;    
+  }
+
+  fitness() {
+    let body = this.getBody();
+    let test1 = body.length>3;
+    let test2 = this.exec();
     let result = Number(test1) + Number(test2);
     fLogger(`fitness for\n === \n ${this.body} \n === \n is ${result}`);
     return result;
