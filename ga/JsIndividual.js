@@ -11,6 +11,7 @@ const eLogger = debug('JsIndividual:exec');
 
 import GenericIndividual from "./GenericIndividual.js";
 import JsMutations from "./JsMutations.js";
+import JsTest from "./JsTest.js";
 
 class JsIndividual extends GenericIndividual {
   constructor(body = 'function sum(a, b) {}') {
@@ -99,27 +100,15 @@ class JsIndividual extends GenericIndividual {
 
   exec() {
     let body = this.getBody();
-    let res = 0;
-
-    try {
-      let sum = Function('a', 'b', body);
-      let a = Math.floor(Math.random() * 10);
-      let b = Math.floor(Math.random() * 10);
-      let result = sum(a,b);
-      res = (result === (a+b));
-      eLogger(`${a} + ${b} = ${result}`);
-    } catch(e) {
-      eLogger(`Error during execution of function \n === \n ${this.body} \n ===: \n ${e}`);
-    }
-    
-    return res;    
+    let f = Function('a', 'b', body);
+    let result = f(...arguments);
+    return result;
   }
 
   fitness() {
-    let body = this.getBody();
-    let test1 = body.length>3;
-    let test2 = this.exec();
-    let result = Number(test1) + Number(test2);
+    let test = new JsTest(this);
+    fLogger(`this is test: ${test}, type: ${typeof test}`);
+    let result = test.run();
     fLogger(`fitness for\n === \n ${this.body} \n === \n is ${result}`);
     return result;
   }
