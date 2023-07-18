@@ -5,7 +5,7 @@ const logger = debug('GeneticAlghorithm');
 import Population from "./Population.js";
 // import TestIndividual from "./TestIndividual.js";
 // import GenomeIndividual from "./GenomeIndividual.js";
-import JsIndividual from "./JsIndividual.js";
+import JsIndividual from "./JsIndividual2.js";
 
 class GeneticAlghorithm {
   constructor(populationSize, IndividualClass) {

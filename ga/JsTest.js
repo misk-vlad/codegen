@@ -15,8 +15,8 @@ class JsTest {
   }
 
   test2() {
-    let a = Math.floor(Math.random() * 10);
-    let b = Math.floor(Math.random() * 10);
+    let a = Math.floor(Math.random() * 9) + 1;
+    let b = Math.floor(Math.random() * 9) + 1;
     let testResult = false;
     try {
       let execResult = this.testObject.exec(a,b);
