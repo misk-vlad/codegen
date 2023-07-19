@@ -1,0 +1,17 @@
+{
+  "query": "FunctionDeclaration VariableDeclarator",
+  "target": "init",
+  "operation": "assign",
+  "subject": {
+    "type": "BinaryExpression",
+    "operator": "{{ randomBinaryOperator() }}",
+    "left": {
+      "type": "Identifier",
+      "name": "{{ chooseVariableName(variableScope, variableToExclude) }}"
+    },
+    "right": {
+      "type": "Identifier",
+      "name": "{{ chooseVariableName(variableScope, variableToExclude) }}"
+    }
+  }
+}

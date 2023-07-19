@@ -1,0 +1,12 @@
+{
+  "query": "FunctionDeclaration>BlockStatement",
+  "target": "body",
+  "operation": "push",
+  "subject": {
+    "type": "ReturnStatement",
+    "argument": {
+      "type": "Identifier",
+      "name": "{{ variableName }}"
+    }
+  }
+}

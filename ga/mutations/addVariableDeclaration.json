@@ -1,0 +1,19 @@
+{
+  "query": "FunctionDeclaration>BlockStatement",
+  "target": "body",
+  "operation": "unshift",
+  "subject": {
+    "type": "VariableDeclaration",
+    "declarations": [
+        {
+            "type": "VariableDeclarator",
+            "id": {
+                "type": "Identifier",
+                "name": "{{ variableName }}"
+            },
+            "init": null
+        }
+    ],
+    "kind": "let"
+  }
+}
