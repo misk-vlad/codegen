@@ -4,14 +4,14 @@
   "operation": "assign",
   "subject": {
     "type": "BinaryExpression",
-    "operator": "{{ randomBinaryOperator() }}",
+    "operator": "{{ randomBinaryOperator }}",
     "left": {
       "type": "Identifier",
-      "name": "{{ chooseVariableName(variableScope, variableToExclude) }}"
+      "name": "{{ chooseVariableName variableScope variableToExclude }}"
     },
     "right": {
       "type": "Identifier",
-      "name": "{{ chooseVariableName(variableScope, variableToExclude) }}"
+      "name": "{{ chooseVariableName variableScope variableToExclude }}"
     }
   }
 }

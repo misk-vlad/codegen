@@ -1,3 +1,6 @@
+import debug from 'debug';
+const hLogger = debug('mutations:helpers');
+
 function generateVariableName(variableScope) {
   const identifierDictionary = 'abcdefghijklmopqrstuvwxyz';
 
@@ -9,7 +12,7 @@ function generateVariableName(variableScope) {
 
   do {
     identifier = randomIdentifier();
-    mLogger(`Generated variable: ${identifier}`);
+    hLogger(`Generated variable: ${identifier}`);
   } while (variableScope.includes(identifier));
 
   return identifier;
@@ -19,7 +22,7 @@ function chooseVariableName(scope, exclude) {
   let identifier;
   do {
     identifier = scope[Math.floor(Math.random() * scope.length)];
-    mLogger(`Chosen variable: ${identifier}`);
+    hLogger(`Chosen variable: ${identifier}`);
   } while (identifier === exclude);
 
   return identifier;
